@@ -1,13 +1,15 @@
 <html>
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Be My Valentine 💖</title>
+
   <style>
     body {
       height: 100vh;
       margin: 0;
+      overflow: hidden;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -21,6 +23,7 @@
       border-radius: 20px;
       text-align: center;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      z-index: 10;
     }
 
     h1 {
@@ -51,38 +54,76 @@
       background-color: #ccc;
       color: #333;
       cursor: not-allowed;
-      pointer-events: none; /* makes it impossible to click */
+      pointer-events: none;
       opacity: 0.6;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 24px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-110vh) scale(1.5);
+        opacity: 0;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="card">
-    <h1>Haythoumi Will you be my Valentine? 💕</h1>
+    <h1 id="question">Will you be my Valentine? 💕</h1>
     <div class="buttons">
       <button id="yesBtn">Yes 💖</button>
       <button id="noBtn">No 🙃</button>
     </div>
   </div>
- <script>
+
+  <script>
     /* -------- Dynamic Name from URL -------- */
     const params = new URLSearchParams(window.location.search);
     const name = params.get("name");
 
     if (name) {
       document.getElementById("question").innerText =
-        `Will you be my Valentine, ${decodeURIComponent(name)}? 💕`;
+        `Haythoumi Will you be my Valentine, ${decodeURIComponent(name)}? 💕`;
     }
- 
+
+    /* -------- Yes Button -------- */
     document.getElementById("yesBtn").addEventListener("click", () => {
       document.body.innerHTML = `
         <h1 style="color:white; text-align:center;">
-          Yay!!! 💘💘💘<br>You made me the happiest person!
+          Yay!!! 💘💘💘<br>
+          I’m so happy you said YES!
         </h1>
       `;
     });
+
+    /* -------- Floating Hearts Generator -------- */
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "💖";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 8000);
+    }
+
+    setInterval(createHeart, 400);
   </script>
 </body>
-
 </html>
-
