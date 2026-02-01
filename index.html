@@ -58,13 +58,21 @@
 </head>
 <body>
   <div class="card">
-    <h1>Will you be my Valentine? 💕</h1>
+    <h1>Haythoumi Will you be my Valentine? 💕</h1>
     <div class="buttons">
       <button id="yesBtn">Yes 💖</button>
       <button id="noBtn">No 🙃</button>
     </div>
   </div>
+ <script>
+    /* -------- Dynamic Name from URL -------- */
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name");
 
+    if (name) {
+      document.getElementById("question").innerText =
+        `Will you be my Valentine, ${decodeURIComponent(name)}? 💕`;
+    }
   <script>
     document.getElementById("yesBtn").addEventListener("click", () => {
       document.body.innerHTML = `
@@ -75,4 +83,5 @@
     });
   </script>
 </body>
+
 </html>
